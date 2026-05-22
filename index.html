@@ -292,6 +292,38 @@
             line-height: 1.4;
         }
 
+        .countdown-grid {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px auto 10px auto;
+            max-width: 350px;
+        }
+
+        .countdown-item {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid var(--gold-secondary);
+            padding: 10px 5px;
+            border-radius: 4px;
+        }
+
+        .countdown-number {
+            font-family: 'Cinzel', serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-light);
+            display: block;
+        }
+
+        .countdown-label {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
         .event-image {
             width: 100%;
             border-radius: 4px;
@@ -316,36 +348,97 @@
             margin-top: 15px;
         }
 
-        .btn-link {
+        .btn-link,
+        .btn-whatsapp {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
             margin-top: 12px;
             padding: 12px 25px;
-            background: transparent;
-            color: var(--text-light);
-            border: 1px solid var(--gold-primary);
-            font-family: 'Cinzel', serif;
-            font-size: 11px;
-            letter-spacing: 2px;
+            border-radius: 4px;
             text-decoration: none;
             text-transform: uppercase;
             cursor: pointer;
             transition: all 0.4s ease;
             font-weight: 600;
-            border-radius: 4px;
+            font-family: 'Cinzel', serif;
+        }
+
+        .btn-link {
+            background: transparent;
+            color: var(--text-light);
+            border: 1px solid var(--gold-primary);
+            font-size: 11px;
+            letter-spacing: 2px;
         }
 
         .btn-link:hover {
             background: var(--gold-primary);
-            color: #ffffff;
+            color: #fff;
+        }
+
+        .btn-whatsapp {
+            background: var(--text-light);
+            color: #fff;
+            border: 1px solid var(--text-light);
+            font-size: 12px;
+            letter-spacing: 2px;
+            margin-top: 25px;
+        }
+
+        .btn-whatsapp:hover {
+            background: #fff;
+            color: var(--text-light);
+            transform: translateY(-2px);
+        }
+
+        .confirm-form {
+            margin-top: 20px;
+        }
+
+        .confirm-input,
+        .confirm-select {
+            width: 100%;
+            padding: 14px 16px;
+            margin-top: 12px;
+            border: 1px solid var(--gold-secondary);
+            border-radius: 4px;
+            background: rgba(255,255,255,0.85);
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-light);
+            font-size: 14px;
+            outline: none;
+        }
+
+        .flower-petal {
+            position: absolute;
+            background-color: var(--gold-primary);
+            border-radius: 150% 0 150% 0;
+            pointer-events: none;
+            animation: float-up infinite ease-in;
+            opacity: 0;
         }
 
         @keyframes pulse {
             0% { opacity: 0.5; }
             50% { opacity: 1; }
             100% { opacity: 0.5; }
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+
+            15% { opacity: 0.6; }
+            85% { opacity: 0.6; }
+
+            100% {
+                transform: translateY(-100vh) translateX(50px) rotate(360deg) scale(1);
+                opacity: 0;
+            }
         }
 
     </style>
@@ -381,7 +474,9 @@
 
     <main id="main-invitation">
 
-        <div class="invitation-frame">
+        <div id="lanterns-container" style="position:absolute; top:0; left:0; width:100%; height:100%; overflow:hidden; pointer-events:none; z-index:1;"></div>
+
+        <div class="invitation-frame" style="z-index:2;">
 
             <div class="lotus-header">
                 <img src="assets/corona.png" alt="Corona">
@@ -405,6 +500,34 @@
 
             <div class="divider"></div>
 
+            <div class="section-tag">Cuenta Atrás</div>
+
+            <div class="countdown-grid" id="countdown-timer">
+
+                <div class="countdown-item">
+                    <span class="countdown-number" id="days">00</span>
+                    <span class="countdown-label">Días</span>
+                </div>
+
+                <div class="countdown-item">
+                    <span class="countdown-number" id="hours">00</span>
+                    <span class="countdown-label">Hrs</span>
+                </div>
+
+                <div class="countdown-item">
+                    <span class="countdown-number" id="minutes">00</span>
+                    <span class="countdown-label">Min</span>
+                </div>
+
+                <div class="countdown-item">
+                    <span class="countdown-number" id="seconds">00</span>
+                    <span class="countdown-label">Seg</span>
+                </div>
+
+            </div>
+
+            <div class="divider"></div>
+
             <div class="info-block">
 
                 <div class="info-label">Ceremonia Religiosa</div>
@@ -421,7 +544,7 @@
 
                 <div class="map-card">
 
-                    <div style="font-family: 'Cinzel', serif; font-size: 11px; color: var(--text-light); font-weight: 600; letter-spacing: 1px;">
+                    <div style="font-family:'Cinzel', serif; font-size:11px; color:var(--text-light); font-weight:600; letter-spacing:1px;">
                         UBICACIÓN
                     </div>
 
@@ -456,7 +579,7 @@
 
                 <div class="map-card">
 
-                    <div style="font-family: 'Cinzel', serif; font-size: 11px; color: var(--text-light); font-weight: 600; letter-spacing: 1px;">
+                    <div style="font-family:'Cinzel', serif; font-size:11px; color:var(--text-light); font-weight:600; letter-spacing:1px;">
                         UBICACIÓN
                     </div>
 
@@ -470,11 +593,56 @@
 
             </div>
 
+            <div class="divider"></div>
+
+            <div class="section-tag">Mesa de Regalos</div>
+
+            <p class="phrase" style="font-size:16px; margin-bottom:20px;">
+                Tu presencia es el regalo más especial para este día tan importante.
+            </p>
+
+            <div class="divider"></div>
+
+            <div class="section-tag">Confirmación</div>
+
+            <p style="font-size:13px; font-family:'Montserrat', sans-serif; font-weight:400; opacity:0.9; margin-bottom:5px;">
+                Agradecemos confirmar tu asistencia antes del evento.
+            </p>
+
+            <div class="confirm-form">
+
+                <input
+                    type="text"
+                    id="guestName"
+                    class="confirm-input"
+                    placeholder="Nombre del asistente">
+
+                <select id="guestCount" class="confirm-select">
+                    <option value="1">1 persona</option>
+                    <option value="2">2 personas</option>
+                    <option value="3">3 personas</option>
+                    <option value="4">4 personas</option>
+                </select>
+
+            </div>
+
+            <a href="#" onclick="confirmAttendance()" class="btn-whatsapp">
+                Confirmar Asistencia
+            </a>
+
+            <div class="divider"></div>
+
+            <div style="font-family:'Cinzel', serif; font-size:11px; letter-spacing:2px; color:var(--text-muted); margin-top:20px; font-weight:600;">
+                INVYTIA PREVIEW DATA
+            </div>
+
         </div>
 
     </main>
 
     <script>
+
+        let targetDateObj = new Date("June 28, 2026 13:00:00");
 
         function openEnvelope() {
 
@@ -483,11 +651,77 @@
             setTimeout(() => {
 
                 document.getElementById('envelope-screen').classList.add('fade-out');
-
                 document.body.classList.add('content-active');
 
-            }, 1200);
+                createFlowerPetals();
 
+            }, 1200);
+        }
+
+        function confirmAttendance() {
+
+            const nombre = document.getElementById('guestName').value || 'Invitado';
+            const personas = document.getElementById('guestCount').value;
+
+            const mensaje = `¡Hola! Confirmo mi asistencia a los XV años de Camila.%0A%0ANombre: ${nombre}%0APersonas asistentes: ${personas}`;
+
+            window.open(`https://wa.me/5532327877?text=${mensaje}`, '_blank');
+        }
+
+        const countdownInterval = setInterval(function () {
+
+            const timeLeft = targetDateObj.getTime() - new Date().getTime();
+
+            if (timeLeft < 0) {
+
+                clearInterval(countdownInterval);
+
+                document.getElementById("countdown-timer").innerHTML =
+                    "<div style='font-family:\"Cinzel\", serif; color:var(--text-light); letter-spacing:2px; font-weight:600;'>¡Llegó el Gran Día!</div>";
+
+                return;
+            }
+
+            document.getElementById("days").innerText =
+                Math.floor(timeLeft / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+
+            document.getElementById("hours").innerText =
+                Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+
+            document.getElementById("minutes").innerText =
+                Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+
+            document.getElementById("seconds").innerText =
+                Math.floor((timeLeft % (1000 * 60)) / 1000).toString().padStart(2, '0');
+
+        }, 1000);
+
+        function createFlowerPetals() {
+
+            const container = document.getElementById('lanterns-container');
+
+            for (let i = 0; i < 25; i++) {
+
+                const petal = document.createElement('div');
+
+                petal.classList.add('flower-petal');
+
+                const width = Math.random() * 8 + 6;
+
+                petal.style.width = `${width}px`;
+                petal.style.height = `${width * 1.3}px`;
+
+                petal.style.left = `${Math.random() * 100}%`;
+                petal.style.bottom = `-30px`;
+
+                petal.style.backgroundColor =
+                    ['#ffe7a8', '#ffd6e7', '#f4b400'][Math.floor(Math.random() * 3)];
+
+                petal.style.animationDuration = `${Math.random() * 10 + 7}s`;
+                petal.style.animationDelay = `${Math.random() * 6}s`;
+
+                container.appendChild(petal);
+            }
         }
 
     </script>
