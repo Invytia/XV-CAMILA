@@ -14,829 +14,338 @@
     <style>
 
         :root {
-
-            --bg-dark: #fffaf5;
-
-            --bg-bayou: linear-gradient(135deg, #fff2b8 0%, #ffd1dc 100%);
-
-            --gold-primary: #f3c95f;
-
-            --gold-secondary: #ffe8a3;
-
-            --text-light: #704b58;
-
-            --text-muted: #c98fa0;
-
+            --bg-dark: #fff8f8;
+            --bg-bayou: linear-gradient(135deg, #fff0c9 0%, #ffd6e7 100%);
+            --gold-primary: #f4b400;
+            --gold-secondary: #ffe7a8;
+            --text-light: #6a4b4b;
+            --text-muted: #b07d8d;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-        body, html {
-
+        body,
+        html {
             width: 100%;
-
             height: 100%;
-
             font-family: 'Montserrat', sans-serif;
-
             background-color: var(--bg-dark);
-
             color: var(--text-light);
-
             overflow-x: hidden;
-
             transition: background-color 0.5s ease;
-
         }
 
         #envelope-screen {
-
             position: fixed;
-
             top: 0;
-
             left: 0;
-
             width: 100%;
-
             height: 100%;
-
             background: var(--bg-bayou);
-
             z-index: 1000;
-
             display: flex;
-
             justify-content: center;
-
             align-items: center;
-
             transition: opacity 1.2s ease-in-out, visibility 1.2s;
-
             overflow: hidden;
-
         }
 
         #envelope-screen.fade-out {
-
             opacity: 0;
-
             visibility: hidden;
-
             pointer-events: none;
-
         }
 
         .envelope-wrapper {
-
             position: relative;
-
             cursor: pointer;
-
             transform: scale(0.9);
-
             transition: transform 0.5s ease;
-
         }
 
         .envelope-wrapper:hover {
-
             transform: scale(0.95);
-
         }
 
         .envelope {
-
             position: relative;
-
             width: 340px;
-
             height: 240px;
-
             background: var(--gold-secondary);
-
             border-radius: 0 0 8px 8px;
-
-            box-shadow: 0 20px 40px rgba(112, 75, 88, 0.12);
-
+            box-shadow: 0 20px 40px rgba(74, 65, 56, 0.1);
         }
 
         .envelope::before {
-
             content: '';
-
             position: absolute;
-
             top: 0;
-
             right: 0;
-
             border-right: 170px solid var(--gold-primary);
-
             border-top: 120px solid transparent;
-
             border-bottom: 120px solid var(--gold-primary);
-
             border-radius: 0 0 8px 0;
-
             z-index: 2;
-
         }
 
         .envelope::after {
-
             content: '';
-
             position: absolute;
-
             top: 0;
-
             left: 0;
-
             border-left: 170px solid var(--gold-primary);
-
             border-top: 120px solid transparent;
-
             border-bottom: 120px solid var(--gold-primary);
-
             border-radius: 0 0 0 8px;
-
             z-index: 2;
-
         }
 
         .front-flap {
-
             position: absolute;
-
             top: 0;
-
             left: 0;
-
             border-left: 170px solid transparent;
-
             border-right: 170px solid transparent;
-
-            border-top: 130px solid #f0c757;
-
+            border-top: 130px solid #f0bf4d;
             transform-origin: top;
-
             transition: transform 0.6s ease 0.2s;
-
             z-index: 4;
-
         }
 
         .envelope-wrapper.open .front-flap {
-
             transform: rotateX(180deg);
-
             z-index: 1;
-
         }
 
         .wax-seal {
-
             position: absolute;
-
-            top: 110px;
-
+            top: 95px;
             left: 50%;
-
             transform: translateX(-50%);
-
-            width: 60px;
-
-            height: 60px;
-
-            background: var(--bg-dark);
-
-            border-radius: 50%;
-
+            width: 90px;
+            height: 90px;
+            background: transparent;
+            border-radius: 0;
             z-index: 5;
-
             display: flex;
-
             justify-content: center;
-
             align-items: center;
-
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1), inset 0 2px 4px rgba(255,255,255,0.8);
-
+            box-shadow: none;
             transition: transform 0.4s ease, opacity 0.4s ease 0.4s;
-
-            border: 2px solid var(--gold-primary);
-
+            border: none;
         }
 
         .wax-seal img {
-
-            width: 32px;
-
-            height: 32px;
-
+            width: 85px;
+            height: 85px;
             object-fit: contain;
-
         }
 
         .envelope-wrapper.open .wax-seal {
-
             transform: translateX(-50%) scale(0);
-
             opacity: 0;
-
         }
 
         .envelope-text {
-
             position: absolute;
-
             bottom: -50px;
-
             width: 100%;
-
             text-align: center;
-
             font-family: 'Cinzel', serif;
-
             font-size: 14px;
-
             color: var(--text-light);
-
             letter-spacing: 3px;
-
             text-transform: uppercase;
-
             font-weight: 600;
-
         }
 
         .hint-text {
-
             position: absolute;
-
             bottom: -80px;
-
             width: 100%;
-
             text-align: center;
-
             font-family: 'Montserrat', sans-serif;
-
             font-size: 11px;
-
             color: var(--text-muted);
-
             letter-spacing: 1px;
-
             opacity: 0.8;
-
             animation: pulse 2s infinite;
-
         }
 
         #main-invitation {
-
             min-height: 100vh;
-
             background: url('assets/imagen.jpg') no-repeat center center;
-
             background-size: cover;
-
             background-attachment: fixed;
-
             position: relative;
-
             display: flex;
-
             flex-direction: column;
-
             align-items: center;
-
             padding: 60px 20px;
-
             opacity: 0;
-
             transform: translateY(20px);
-
             transition: opacity 1.5s ease-out 0.6s, transform 1.5s ease-out 0.6s;
-
         }
 
         body.content-active #main-invitation {
-
             opacity: 1;
-
             transform: translateY(0);
-
         }
 
         .invitation-frame {
-
             max-width: 500px;
-
             width: 100%;
-
-            border: 1px solid rgba(243, 201, 95, 0.6);
-
+            border: 1px solid var(--gold-secondary);
             padding: 40px 30px;
-
             text-align: center;
-
             position: relative;
-
-            background: rgba(255, 250, 245, 0.88);
-
-            box-shadow: 0 15px 35px rgba(112, 75, 88, 0.08);
-
+            background: rgba(255, 248, 248, 0.88);
+            box-shadow: 0 15px 35px rgba(74, 65, 56, 0.08);
             backdrop-filter: blur(8px);
-
             -webkit-backdrop-filter: blur(8px);
-
-            border-radius: 8px;
-
+            border-radius: 4px;
         }
 
         .lotus-header img {
-
-            width: 50px;
-
-            height: 50px;
-
+            width: 75px;
+            height: 75px;
             object-fit: contain;
-
             margin-bottom: 20px;
-
         }
 
         .section-tag {
-
             font-family: 'Cinzel', serif;
-
             font-size: 11px;
-
             letter-spacing: 5px;
-
             color: var(--text-muted);
-
             text-transform: uppercase;
-
             margin-bottom: 10px;
-
             font-weight: 600;
-
         }
 
         .main-title {
-
             font-family: 'Pinyon Script', cursive;
-
-            font-size: 78px;
-
+            font-size: 75px;
             color: var(--text-light);
-
-            margin-bottom: 10px;
-
-            line-height: 1;
-
+            margin-bottom: 15px;
+            line-height: 1.1;
         }
 
         .phrase {
-
             font-family: 'Cormorant Garamond', serif;
-
             font-style: italic;
-
-            font-size: 19px;
-
+            font-size: 18px;
             color: var(--text-light);
-
             line-height: 1.6;
-
             margin-bottom: 35px;
-
-            padding: 0 10px;
-
+            padding: 0 15px;
         }
 
         .divider {
-
             width: 60px;
-
             height: 1px;
-
             background: linear-gradient(to right, transparent, var(--gold-primary), transparent);
-
             margin: 25px auto;
-
         }
 
         .info-block {
-
             margin-bottom: 30px;
-
         }
 
         .info-label {
-
             font-family: 'Cinzel', serif;
-
             font-size: 11px;
-
             letter-spacing: 3px;
-
             color: var(--text-muted);
-
             text-transform: uppercase;
-
             margin-bottom: 8px;
-
             font-weight: 600;
-
         }
 
         .name-main {
-
             font-family: 'Cinzel', serif;
-
             font-size: 17px;
-
             font-weight: 600;
-
             color: var(--text-light);
-
             letter-spacing: 1px;
-
             margin-bottom: 4px;
-
         }
 
         .info-value-main {
-
             font-family: 'Cinzel', serif;
-
-            font-size: 22px;
-
+            font-size: 20px;
             font-weight: 600;
-
             color: var(--text-light);
-
             letter-spacing: 2px;
-
         }
 
         .info-value-sub {
-
             font-family: 'Montserrat', sans-serif;
-
             font-size: 13px;
-
             color: var(--text-light);
-
             margin-top: 5px;
-
             letter-spacing: 1px;
-
-            line-height: 1.5;
-
-        }
-
-        .countdown-grid {
-
-            display: flex;
-
-            justify-content: center;
-
-            gap: 15px;
-
-            margin: 25px auto 10px auto;
-
-            max-width: 350px;
-
-        }
-
-        .countdown-item {
-
-            flex: 1;
-
-            background: rgba(255,255,255,0.75);
-
-            border: 1px solid rgba(243, 201, 95, 0.4);
-
-            padding: 10px 5px;
-
-            border-radius: 6px;
-
-        }
-
-        .countdown-number {
-
-            font-family: 'Cinzel', serif;
-
-            font-size: 20px;
-
-            font-weight: 700;
-
-            color: var(--text-light);
-
-            display: block;
-
-        }
-
-        .countdown-label {
-
-            font-size: 9px;
-
-            text-transform: uppercase;
-
-            letter-spacing: 1px;
-
-            color: var(--text-muted);
-
-            font-weight: 600;
-
+            line-height: 1.4;
         }
 
         .event-image {
-
             width: 100%;
-
-            border-radius: 6px;
-
+            border-radius: 4px;
             margin-top: 15px;
-
-            border: 1px solid rgba(243, 201, 95, 0.5);
-
+            border: 1px solid var(--gold-secondary);
         }
 
         .map-card {
-
             margin-top: 15px;
-
-            border: 1px solid rgba(243, 201, 95, 0.4);
-
-            background: rgba(255,255,255,0.75);
-
+            border: 1px solid var(--gold-secondary);
+            background: rgba(255, 255, 255, 0.8);
             padding: 20px 15px;
-
-            border-radius: 6px;
-
+            border-radius: 4px;
             text-align: center;
-
         }
 
         .map-embed {
-
             width: 100%;
-
             height: 220px;
-
             border: 0;
-
-            border-radius: 6px;
-
+            border-radius: 4px;
             margin-top: 15px;
-
         }
 
         .btn-link {
-
             display: inline-flex;
-
             align-items: center;
-
             justify-content: center;
-
             gap: 10px;
-
             margin-top: 12px;
-
             padding: 12px 25px;
-
             background: transparent;
-
             color: var(--text-light);
-
             border: 1px solid var(--gold-primary);
-
             font-family: 'Cinzel', serif;
-
             font-size: 11px;
-
             letter-spacing: 2px;
-
             text-decoration: none;
-
             text-transform: uppercase;
-
             cursor: pointer;
-
             transition: all 0.4s ease;
-
             font-weight: 600;
-
-            border-radius: 6px;
-
+            border-radius: 4px;
         }
 
         .btn-link:hover {
-
             background: var(--gold-primary);
-
             color: #ffffff;
-
-        }
-
-        .btn-whatsapp {
-
-            display: inline-flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            gap: 10px;
-
-            margin-top: 25px;
-
-            padding: 14px 30px;
-
-            background: #ff93b5;
-
-            color: #ffffff;
-
-            border: 1px solid #ff93b5;
-
-            font-family: 'Cinzel', serif;
-
-            font-size: 12px;
-
-            letter-spacing: 2px;
-
-            text-decoration: none;
-
-            text-transform: uppercase;
-
-            cursor: pointer;
-
-            transition: all 0.4s ease;
-
-            font-weight: 600;
-
-            border-radius: 6px;
-
-        }
-
-        .btn-whatsapp:hover {
-
-            background: #ffffff;
-
-            color: #ff93b5;
-
-            transform: translateY(-2px);
-
-        }
-
-        .confirm-form {
-
-            margin-top: 20px;
-
-        }
-
-        .confirm-input,
-
-        .confirm-select {
-
-            width: 100%;
-
-            padding: 14px 16px;
-
-            margin-top: 12px;
-
-            border: 1px solid rgba(243, 201, 95, 0.5);
-
-            border-radius: 6px;
-
-            background: rgba(255,255,255,0.9);
-
-            font-family: 'Montserrat', sans-serif;
-
-            color: var(--text-light);
-
-            font-size: 14px;
-
-            outline: none;
-
-        }
-
-        .flower-petal {
-
-            position: absolute;
-
-            background-color: var(--gold-primary);
-
-            border-radius: 150% 0 150% 0;
-
-            pointer-events: none;
-
-            animation: float-up infinite ease-in;
-
-            opacity: 0;
-
         }
 
         @keyframes pulse {
-
             0% { opacity: 0.5; }
-
             50% { opacity: 1; }
-
             100% { opacity: 0.5; }
-
-        }
-
-        @keyframes float-up {
-
-            0% {
-
-                transform: translateY(0) translateX(0) rotate(0deg) scale(0.5);
-
-                opacity: 0;
-
-            }
-
-            15% { opacity: 0.6; }
-
-            85% { opacity: 0.6; }
-
-            100% {
-
-                transform: translateY(-100vh) translateX(50px) rotate(360deg) scale(1);
-
-                opacity: 0;
-
-            }
-
-        }
-
-        @media (max-width: 400px) {
-
-            .envelope {
-
-                width: 290px;
-
-                height: 210px;
-
-            }
-
-            .envelope::before {
-
-                border-right-width: 145px;
-
-                border-top-width: 105px;
-
-                border-bottom-width: 105px;
-
-            }
-
-            .envelope::after {
-
-                border-left-width: 145px;
-
-                border-top-width: 105px;
-
-                border-bottom-width: 105px;
-
-            }
-
-            .front-flap {
-
-                border-left-width: 145px;
-
-                border-right-width: 145px;
-
-                border-top-width: 115px;
-
-            }
-
-            .wax-seal {
-
-                top: 95px;
-
-            }
-
-            .main-title {
-
-                font-size: 62px;
-
-            }
-
-            .invitation-frame {
-
-                padding: 30px 20px;
-
-            }
-
         }
 
     </style>
@@ -852,26 +361,19 @@
             <div class="front-flap"></div>
 
             <div class="wax-seal">
-
                 <img src="assets/corona.png" alt="Corona">
-
             </div>
 
             <div class="envelope"></div>
 
             <div class="envelope-text">
-
                 Mis XV Años<br>
-
-                <span id="sobre-nombre" style="color: var(--text-light); font-size: 18px; letter-spacing: 5px; font-weight: 600;">
-
+                <span id="sobre-nombre" style="color: var(--text-light); font-size: 16px; letter-spacing: 5px; font-weight: 600;">
                     Camila
-
                 </span>
-
             </div>
 
-            <div class="hint-text">Toca el sello para abrir</div>
+            <div class="hint-text">Toca la corona para abrir</div>
 
         </div>
 
@@ -879,72 +381,59 @@
 
     <main id="main-invitation">
 
-        <div id="lanterns-container" style="position: absolute; top:0; left:0; width:100%; height:100%; overflow:hidden; pointer-events:none; z-index:1;"></div>
-
-        <div class="invitation-frame" style="z-index: 2;">
+        <div class="invitation-frame">
 
             <div class="lotus-header">
-
                 <img src="assets/corona.png" alt="Corona">
-
             </div>
 
             <div class="section-tag">Mis XV Años</div>
 
-            <h1 class="main-title" id="main-nombre">Camila</h1>
+            <h1 class="main-title">Camila</h1>
 
             <p class="phrase">
-
-                “Hay momentos inolvidables que se atesoran en el corazón para siempre. 
-                Hoy comienza una nueva etapa en mi vida y me encantaría compartirla contigo.”
-
+                “Hay momentos inolvidables que se atesoran en el corazón para siempre.
+                Hoy quiero compartir contigo la alegría de celebrar mis XV años.”
             </p>
 
             <div class="divider"></div>
 
             <div class="info-block">
-
                 <div class="info-label">Familia</div>
-
                 <div class="name-main">Familia González Vargas</div>
-
             </div>
 
             <div class="divider"></div>
 
-            <div class="section-tag">Cuenta Atrás</div>
+            <div class="info-block">
 
-            <div class="countdown-grid" id="countdown-timer">
+                <div class="info-label">Ceremonia Religiosa</div>
 
-                <div class="countdown-item">
+                <div class="info-value-main">28 JUNIO · 1:00 PM</div>
 
-                    <span class="countdown-number" id="days">00</span>
-
-                    <span class="countdown-label">Días</span>
-
+                <div class="info-value-sub">
+                    Rectoría San Juan Pablo II<br>
+                    Parque de la Primavera Pumpushuti<br>
+                    Blvd. Juan Pablo 2o.
                 </div>
 
-                <div class="countdown-item">
+                <img src="assets/ceremonia.jpg" class="event-image" alt="Ceremonia">
 
-                    <span class="countdown-number" id="hours">00</span>
+                <div class="map-card">
 
-                    <span class="countdown-label">Hrs</span>
+                    <div style="font-family: 'Cinzel', serif; font-size: 11px; color: var(--text-light); font-weight: 600; letter-spacing: 1px;">
+                        UBICACIÓN
+                    </div>
 
-                </div>
+                    <iframe
+                        class="map-embed"
+                        src="https://maps.google.com/maps?q=Rectoría%20San%20Juan%20Pablo%20II&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                        loading="lazy">
+                    </iframe>
 
-                <div class="countdown-item">
-
-                    <span class="countdown-number" id="minutes">00</span>
-
-                    <span class="countdown-label">Min</span>
-
-                </div>
-
-                <div class="countdown-item">
-
-                    <span class="countdown-number" id="seconds">00</span>
-
-                    <span class="countdown-label">Seg</span>
+                    <a href="https://share.google/S3QUJ1c0D3c6RXePX" target="_blank" class="btn-link">
+                        Ver en Maps
+                    </a>
 
                 </div>
 
@@ -952,147 +441,32 @@
 
             <div class="divider"></div>
 
-            <div class="info-grid">
+            <div class="info-block">
 
-                <div class="info-block">
+                <div class="info-label">Brunch</div>
 
-                    <div class="info-label">Ceremonia Religiosa</div>
+                <div class="info-value-main">Salón Jardín Roills</div>
 
-                    <div class="info-value-main">28.JUN.2026</div>
-
-                    <div class="info-value-sub">
-
-                        1:00 p.m.<br>
-
-                        Rectoría San Juan Pablo Segundo<br>
-
-                        Parque de la Primavera Pumpushuti<br>
-
-                        Blvd. Juan Pablo II
-
-                    </div>
-
-                    <img src="assets/ceremonia.jpg" class="event-image" alt="Ceremonia">
-
-                    <div class="map-card">
-
-                        <div style="font-family: 'Cinzel', serif; font-size: 11px; color: var(--text-light); font-weight: 600; letter-spacing: 1px;">
-
-                            UBICACIÓN
-
-                        </div>
-
-                        <iframe
-
-                            class="map-embed"
-
-                            src="https://maps.google.com/maps?q=Rectoría%20San%20Juan%20Pablo%20Segundo&t=&z=15&ie=UTF8&iwloc=&output=embed"
-
-                            loading="lazy">
-
-                        </iframe>
-
-                        <a href="https://share.google/S3QUJ1c0D3c6RXePX" target="_blank" class="btn-link">
-
-                            Ver en Maps
-
-                        </a>
-
-                    </div>
-
+                <div class="info-value-sub">
+                    Cerro Matumacza s/n,<br>
+                    Loma Bonita, Col. Loma Matumacza.
                 </div>
 
-                <div class="divider"></div>
+                <img src="assets/recepcion.jpg" class="event-image" alt="Recepción">
 
-                <div class="info-block">
+                <div class="map-card">
 
-                    <div class="info-label">Brunch</div>
-
-                    <div class="info-value-main">Salón Jardín Roills</div>
-
-                    <div class="info-value-sub">
-
-                        Al terminar la ceremonia<br>
-
-                        Cerro Matumacza s/n,<br>
-
-                        Loma Bonita, Col. Loma Matumacza
-
+                    <div style="font-family: 'Cinzel', serif; font-size: 11px; color: var(--text-light); font-weight: 600; letter-spacing: 1px;">
+                        UBICACIÓN
                     </div>
 
-                    <img src="assets/recepcion.jpg" class="event-image" alt="Brunch">
-
-                    <div class="map-card">
-
-                        <div style="font-family: 'Cinzel', serif; font-size: 11px; color: var(--text-light); font-weight: 600; letter-spacing: 1px;">
-
-                            UBICACIÓN
-
-                        </div>
-
-                        <iframe
-
-                            class="map-embed"
-
-                            src="https://maps.google.com/maps?q=Salon%20Jardin%20Roills&t=&z=15&ie=UTF8&iwloc=&output=embed"
-
-                            loading="lazy">
-
-                        </iframe>
-
-                    </div>
+                    <iframe
+                        class="map-embed"
+                        src="https://maps.google.com/maps?q=Cerro%20Matumacza&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                        loading="lazy">
+                    </iframe>
 
                 </div>
-
-            </div>
-
-            <div class="divider"></div>
-
-            <div class="section-tag">Confirmación</div>
-
-            <p style="font-size: 13px; font-family: 'Montserrat', sans-serif; font-weight: 400; opacity: 0.9; margin-bottom: 5px;">
-
-                Agradecemos confirmar tu asistencia antes del evento.
-
-            </p>
-
-            <div class="confirm-form">
-
-                <input
-
-                    type="text"
-
-                    id="guestName"
-
-                    class="confirm-input"
-
-                    placeholder="Nombre del asistente">
-
-                <select id="guestCount" class="confirm-select">
-
-                    <option value="1">1 persona</option>
-
-                    <option value="2">2 personas</option>
-
-                    <option value="3">3 personas</option>
-
-                    <option value="4">4 personas</option>
-
-                </select>
-
-            </div>
-
-            <a href="#" onclick="confirmAttendance()" class="btn-whatsapp">
-
-                Confirmar Asistencia
-
-            </a>
-
-            <div class="divider"></div>
-
-            <div style="font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 2px; color: var(--text-muted); margin-top: 20px; font-weight: 600;">
-
-                INVYTIA PREVIEW DATA
 
             </div>
 
@@ -1101,8 +475,6 @@
     </main>
 
     <script>
-
-        let targetDateObj = new Date("June 28, 2026 13:00:00");
 
         function openEnvelope() {
 
@@ -1114,89 +486,7 @@
 
                 document.body.classList.add('content-active');
 
-                createFlowerPetals();
-
             }, 1200);
-
-        }
-
-        function confirmAttendance() {
-
-            const nombre = document.getElementById('guestName').value || 'Invitado';
-
-            const personas = document.getElementById('guestCount').value;
-
-            const mensaje = `¡Hola! Confirmo mi asistencia a los XV años de Camila.%0A%0ANombre: ${nombre}%0APersonas asistentes: ${personas}`;
-
-            window.open(`https://wa.me/?text=${mensaje}`, '_blank');
-
-        }
-
-        const countdownInterval = setInterval(function() {
-
-            const timeLeft = targetDateObj.getTime() - new Date().getTime();
-
-            if (timeLeft < 0) {
-
-                clearInterval(countdownInterval);
-
-                document.getElementById("countdown-timer").innerHTML =
-
-                    "<div style='font-family:\"Cinzel\", serif; color:var(--text-light); letter-spacing:2px; font-weight:600;'>¡Llegó el Gran Día!</div>";
-
-                return;
-
-            }
-
-            document.getElementById("days").innerText =
-
-                Math.floor(timeLeft / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
-
-            document.getElementById("hours").innerText =
-
-                Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
-
-            document.getElementById("minutes").innerText =
-
-                Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
-
-            document.getElementById("seconds").innerText =
-
-                Math.floor((timeLeft % (1000 * 60)) / 1000).toString().padStart(2, '0');
-
-        }, 1000);
-
-        function createFlowerPetals() {
-
-            const container = document.getElementById('lanterns-container');
-
-            for (let i = 0; i < 25; i++) {
-
-                const petal = document.createElement('div');
-
-                petal.classList.add('flower-petal');
-
-                const width = Math.random() * 8 + 6;
-
-                petal.style.width = `${width}px`;
-
-                petal.style.height = `${width * 1.3}px`;
-
-                petal.style.left = `${Math.random() * 100}%`;
-
-                petal.style.bottom = `-30px`;
-
-                petal.style.backgroundColor =
-
-                    ['#ffe27a', '#ffd1dc', '#fff1a8'][Math.floor(Math.random()*3)];
-
-                petal.style.animationDuration = `${Math.random() * 10 + 7}s`;
-
-                petal.style.animationDelay = `${Math.random() * 6}s`;
-
-                container.appendChild(petal);
-
-            }
 
         }
 
